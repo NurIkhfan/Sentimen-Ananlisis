@@ -53,11 +53,14 @@ library(katadasaR)
 library(tau)
 library(parallel)
 
-data_mentah <- read.csv("C:/Users/IKHFAN/Documents/Data Mentah Hasil.csv", header=TRUE, sep=",")
-data_mentah (view)
+#data_mentah <- read.csv("C:/Users/IKHFAN/Documents/Data Mentah Hasil.csv", header=TRUE, sep=",")
+#data_mentah (view)
+library (readr)
+urlfile = "https://raw.githubusercontent.com/NurIkhfan/Sentimen-Ananlisis/main/Data/Data%20Mentah%20Hasil.csv"
+data <- read.csv(url(urlfile))
 
 #merubah file ke dalam corpus
-corpusdata <- Corpus(VectorSource(Data$text))
+corpusdata <- Corpus(VectorSource(data$text))
 
 #mengubah semua huruf kapital menjadi huruf kecil
 data_casefolding <- tm_map(corpusdata,content_transformer(tolower))
@@ -118,7 +121,7 @@ write.csv(databersih,file="D:/#Kuliah AIS/Semester 5/Pengolahan TA/databersih.cs
 
 #tokenize
 library(tokenizers)
-corpustext <- Corpus(VectorSource(Data$text))
+corpustext <- Corpus(VectorSource(data$text))
 inspect(corpustext[1:10])
 text=corpustext
 strsplit_space_tokenizer <- function(x)
@@ -126,8 +129,9 @@ strsplit_space_tokenizer <- function(x)
 strsplit_space_tokenizer(text)
 
 #WORD CLOUD
+library(wordcloud)
 text<-as.character(text)
-wordcloud(text, min.freq=5, max.words=100, colors = brewer.pal(8,"Dark2"),
+wordcloud(text, min.freq=5, max.words=500, colors = brewer.pal(8,"Dark2"),
           random.order = FALSE)
 
 ####word count
@@ -154,7 +158,6 @@ library(SentimentAnalysis)
 library(plyr)
 library(ggplot2)
 library(RColorBrewer)
-library(wordcloud)
 library(sentiment)
 
 # classify emotion
